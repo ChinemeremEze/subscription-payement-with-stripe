@@ -1,0 +1,35 @@
+<!-- Purpose: To provide users a place to land after they login -->
+{{>header}}
+
+<h3>Dashboard</h3>
+
+<div class="grid-x">
+    
+    <div class="cell small-12">Welcome {{user.name}}!</div>
+            {{#cancel_error_message}}
+                <div class="grid-x grid-padding-x">
+
+                    <div class="cell small-12 error">{{ cancel_error_message }}</div>
+
+                </div>
+            {{/cancel_error_message}}
+        {{#has_active_plan}}
+            <div class="grid-x grid-padding-x grid-margin-x">
+
+                <div class="cell small-12 grid-container callout">
+
+                    <h3>Cancel Subscribtion</h3>
+                    
+                    <form action="/customer/index" method="POST">
+                        <div class="grid-x grid-padding-x">
+                            <div class="cell small-12"><button type="submit" id="cancel-button" name="cancel-button" class="expanded button">Cancel your subscription</button></div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        {{/has_active_plan}}
+
+</div>
+
+{{>footer}}

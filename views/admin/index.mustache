@@ -1,0 +1,31 @@
+<!-- Purpose: To list available users/subscribers for the admin to update/edit -->
+{{>header}}
+
+    <a href="/admin/logout">Logout</a>
+
+    <h3>Customers</h3>
+
+    <table>
+        <thead>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Plan</td>
+            <td>Start date</td>
+            <td>Price</td>
+            <td>Account created date</td>
+            <td>Customer ID</td>
+        </thead>
+        
+        {{#customers}}
+        <tr>
+            <td>{{ name }}</td>
+            <td>{{ email }}</td>
+            <td>{{ subscription_plan_name }}</td>
+            <td>{{#format_date}}{{subscription_plan_start_date}}{{/format_date}}</td>
+            <td>${{ subscription_plan_price }}</td>
+            <td>{{#format_date}}{{created}}{{/format_date}}</td>
+            <td>{{ id }}</td>
+        </tr>
+        {{/customers}}
+    </table>
+{{>footer}}

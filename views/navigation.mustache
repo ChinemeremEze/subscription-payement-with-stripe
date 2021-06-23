@@ -1,0 +1,28 @@
+<!-- Purpose: To provide user with navigation options while logged in -->
+<ul>
+
+    <li><a href="/customer">Home</a></li>
+
+    <li><a href="/customer/profile">Profile</a></li>
+    
+    <li><a href="/customer/payment">Payment</a></li>
+
+    <!-- Only show this line if they have a valid subscription (i.e. user.subscription) -->
+    {{#has_active_plan}}
+    <li><a href="/customer/downloads">My Downloads</a></li>
+    {{/has_active_plan}}
+
+    <li><a href="/customer/logout">Logout</a></li>
+
+</ul>
+
+<style>
+ul {
+    list-style: none;
+    margin-right: 20px;
+}
+
+ul li {
+    margin: 0 0 10px 0;
+}
+</style>

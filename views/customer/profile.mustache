@@ -1,0 +1,62 @@
+<!-- Purpose: To let user define and update their profile information -->
+{{>header}}
+
+<h3>Profile</h3>
+
+<div class="grid-x">
+
+    <div class="cell small-6">
+        
+        <form action="/customer/profile" method="POST">
+
+            {{#update_error_message}}
+            <div class="grid-x grid-padding-x">
+
+                <div class="cell small-12 error">{{ update_error_message }}</div>
+
+            </div>
+            {{/update_error_message}}
+        
+            <div class="grid-x update-profile">
+
+                <div class="cell small-4">Full Name:</div>
+                <div class="cell small-8">{{ user.name }}</div>
+
+                <div class="cell small-4">Username:</div>
+                <div class="cell small-8"><input type="text" name="username" id="update_username" required value="{{ user.username }}"></div>
+
+                <div class="cell small-4">Email Address:</div>
+                <div class="cell small-8">{{ user.email }}</div>
+
+                <div class="cell small-4">Birth Date:</div>
+                <div class="cell small-8"><input type="date" name="birthdate" id="update_birthdate" required value="{{ user.birthdate }}"></div>
+
+                <div class="cell small-4">Phone Number:</div>
+                <div class="cell small-8"><input type="tel" name="phone" id="update_phone" required value="{{ user.phone }}"></div>
+
+                <div class="cell small-4">Password:</div>
+                <div class="cell small-8 taller">
+                    <input type="password" name="password" id="update_password" placeholder="Shhh..." required>
+                    <input type="password" name="password_verification" id="update_password_verification" placeholder="One more time" required>
+                </div>
+
+                <div class="cell small-12"><button type="submit" id="update-button" name="update-button" class="expanded button">Update</button></div>
+
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<style>
+.update-profile > div {
+    height: 50px;
+}
+
+.update-profile > div.taller {
+    height: auto;
+}
+</style>
+
+{{>footer}}

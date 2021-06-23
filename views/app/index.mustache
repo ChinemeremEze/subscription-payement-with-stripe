@@ -1,0 +1,97 @@
+<!-- Purpose: To provide a landing page for login/register -->
+{{>header}}
+
+    <h2 class="text-center">Sealand Hosting Services</h2>
+
+    <div class="grid-x grid-padding-x grid-margin-x">
+
+        <div class="cell small-6 grid-container callout">
+
+            <h3>Login</h3>
+            
+            <form action="/app/login" method="POST">
+
+                {{#login_error_message}}
+                <div class="grid-x grid-padding-x">
+
+                    <div class="cell small-12 error">{{ login_error_message }}</div>
+
+                </div>
+                {{/login_error_message}}
+            
+                <div class="grid-x grid-padding-x">
+
+                    <div class="cell small-4">Username:</div>
+                    <div class="cell small-8"><input type="text" name="username" id="login-username" required></div>
+
+                    <div class="cell small-4">Password:</div>
+                    <div class="cell small-8"><input type="password" name="password" id="login-password" required></div>
+
+                    <div class="cell small-12"><button type="submit" id="login-button" name="login-button" class="expanded button">Login</button></div>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="cell small-6 grid-container callout">
+
+            <h3>Register</h3>
+
+            <form action="/app/register" method="POST">
+
+                {{#register_error_message}}
+                <div class="grid-x grid-padding-x">
+
+                    <div class="cell small-12 error">{{ register_error_message }}</div>
+
+                </div>
+                {{/register_error_message}}
+
+                <div class="grid-x grid-padding-x">
+
+                    <div class="cell small-4">Full Name:</div>
+                    <div class="cell small-8"><input type="text" name="name" id="register-name" required value=""></div>
+
+                    <div class="cell small-4">Username:</div>
+                    <div class="cell small-8"><input type="text" name="username" id="register-username" required value=""></div>
+
+                    <div class="cell small-4">Email Address:</div>
+                    <div class="cell small-8"><input type="email" name="email" id="register-email" required value=""></div>
+
+                    <div class="cell small-4">Birth Date:</div>
+                    <div class="cell small-8"><input type="date" name="birthdate" id="register-birthdate" required value=""></div>
+
+                    <div class="cell small-4">Phone Number:</div>
+                    <div class="cell small-8"><input type="tel" name="phone" id="register-phone" required value=""></div>
+
+                    <div class="cell small-4">Password:</div>
+                    <div class="cell small-8">
+                        <input type="password" name="password" id="register-password" placeholder="Shhh..." required>
+                        <input type="password" name="password_verification" id="register-password-verification" placeholder="One more time" required>
+                    </div>
+
+                    <div class="cell small-12"><button type="submit" id="register-button" name="register-button" class="expanded button">Register</button></div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <style>
+        form {
+            margin-top: 30px;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+            padding: 10px;
+            margin: 0 0 30px 0;
+        }
+    </style>
+
+{{>footer}}

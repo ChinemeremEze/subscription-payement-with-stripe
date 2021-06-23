@@ -1,0 +1,159 @@
+<!-- Purpose: To let user define and update their payment information -->
+{{>header}}
+
+<h3>Payment</h3>
+{{#has_active_plan}}
+<div class="plan-notice">
+  You currently have a plan setup.
+</div>
+{{/has_active_plan}}
+
+{{^has_active_plan}}
+<div class="plan-notice">
+  You don't have a plan, so you are being redirected here.
+</div>
+{{/has_active_plan}}
+
+<form action="/customer/payment" method="POST" id="customer-payment-form">
+  <div class="plans callout grid-x grid-margin-x grid-padding-x">
+    {{#plans}}
+      <div class="cell small-4 text-center plan-column" data-plan-id="{{ name }}">
+        <div class="plan-label">
+          <h4>{{ label }}</h4>
+        </div>
+
+        <div class="plan-select text-center">
+          <button type="button" id="plan_select_{{ name }}" class="plan-select-button button">Select {{ label }}</button>
+        </div>
+      </div>
+    {{/plans}}
+
+    <input type="hidden" id="selected_plan" name="selected_plan" value="">
+    <input type="hidden" id="stripe_token" name="stripe_token" value="">
+  </div>
+
+  <div class="payment callout">
+
+    <label for="card-element">
+      Credit or debit card
+    </label>
+
+    <div id="card-element"></div>
+
+    <div id="card-errors" role="alert"></div>
+
+  </div>
+
+  <div class="actions">
+    <button type="button" id="pay" class="button">Pay</button>
+  </div>
+</form>
+
+<style>
+.plan-column {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+
+.plan-column.selected {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.StripeElement {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+  padding: 6px;
+}
+
+#card-errors {
+  font-size: 14px;
+  color: rgb(200, 0, 0);
+  border: 1px solid rgb(200, 0, 0);
+  padding: 4px;
+  margin: 10px 0 4px 0;
+}
+
+#card-errors:empty {
+  display: none;
+}
+
+.plan-notice {
+  font-size: 14px;
+  color: rgb(0, 0, 0);
+  border: 1px solid rgb(0, 0, 230);
+  padding: 4px;
+  margin: 10px 0;
+}
+</style>
+
+<script>
+  var stripe;
+  var elements;
+  var card_element;
+
+  // Initialize Stripe
+  function init_stripe() {
+    stripe = Stripe('{{ stripe_pk }}');
+    elements = stripe.elements();
+    card_element = elements.create('card');
+    card_element.mount('#card-element');
+  }
+
+  function init_events() {
+    //  Clicking a plan
+    $(document).on('click', '.plan-column', function(evt) {
+      $('.plan-column').removeClass('selected');
+      $(this).addClass('selected');
+
+      let plan_id = $(this).data('plan-id');
+      $('#selected_plan').val(plan_id);
+    });
+
+    //  Submitting form, validating credit card, getting token
+    let $submit_button = $('#pay');
+    let $stripe_token = $('#stripe_token');
+    let $form = $('#customer-payment-form');
+    $form.on('submit', function(evt) {
+      if(!$stripe_token.val())
+        return false;
+    });
+
+    //  User clicks "Pay"
+    $submit_button.on('click', function(evt) {
+      let $selected_plan = $('#selected_plan');
+      
+      if($selected_plan.val() == "") {
+        $('#card-errors').text("A plan must be selected.");
+        return false;
+      }
+
+      stripe.createToken(card_element)
+        .then(function(result) {
+          if(result.error) {
+            $('#card-errors').text(result.error.message);
+          } else {
+            create_token(result.token);
+          }
+        });
+      return false;
+    });
+  }
+
+  function create_token(token) {
+    let $form = $('#customer-payment-form');
+    let $stripe_token = $('#stripe_token');
+    $stripe_token.val(token.id);
+    $form.submit();
+  }
+
+  init_stripe();
+  init_events();
+</script>
+
+{{>footer}}

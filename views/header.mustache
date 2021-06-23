@@ -1,0 +1,41 @@
+<!-- Purpose: It's a header -->
+
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Lab 5 Starter Kit</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
+        <script src="https://js.stripe.com/v3/"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+
+        <style>
+        body {
+            font-size: 16px;
+        }
+
+        .side-navigation {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 40px 20px;
+        }
+
+        .content {
+            padding: 20px 40px;
+        }
+        </style>
+    </head>
+
+    <body>
+        <div class="grid-y grid-frame">
+            <div class="grid-x cell small-12">
+                {{#user.id}}
+                    <div class="cell small-3 side-navigation">
+                        {{>navigation}}
+                    </div>
+                    <div class="cell small-9 content">
+                {{/user.id}}
+                {{^user.id}}
+                    <div class="cell small-12 content">
+                {{/user.id}}
